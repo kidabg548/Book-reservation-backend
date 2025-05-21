@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 const User = require("../models/User");
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
+// Set JWT secret for testing
+process.env.JWT_SECRET = 'test-secret';
+
 let mongoServer;
 
 beforeAll(async () => {
