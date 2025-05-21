@@ -23,7 +23,7 @@
         "supertest": "^7.1.0"
     },
     "devDependencies": {
-        "eslint": "^9.27.0",
+        "eslint": "^8.56.0",
         "nodemon": "^3.1.4"
     }
 }

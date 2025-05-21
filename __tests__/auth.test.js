@@ -1,18 +1,30 @@
 const request = require("supertest");
-const app = require("../app"); // Ensure this points to your Express app
+const app = require("../app");
 const mongoose = require("mongoose");
 const User = require("../models/User");
+const { MongoMemoryServer } = require('mongodb-memory-server');
+
+let mongoServer;
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  await User.deleteMany({}); // Clean up test database before running tests
+  try {
+    mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
+    await mongoose.connect(mongoUri);
+    await User.deleteMany({}); // Clean up test database before running tests
+  } catch (error) {
+    console.error('Database connection error:', error);
+    throw error;
+  }
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
+  try {
+    await mongoose.connection.close();
+    await mongoServer.stop();
+  } catch (error) {
+    console.error('Error closing database connection:', error);
+  }
 });
 
 describe("Auth API", () => {
@@ -22,8 +34,6 @@ describe("Auth API", () => {
     phoneNumber: "1234567890",
     password: "Test@1234",
   };
-
-  let token;
 
   test("should register a new user", async () => {
     const res = await request(app).post("/api/auth/register").send(testUser);
@@ -46,7 +56,6 @@ describe("Auth API", () => {
     });
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("token");
-    token = res.body.token;
   });
 
   test("should not log in with wrong credentials", async () => {
