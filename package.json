@@ -6,7 +6,8 @@
     "scripts": {
         "test": "jest --testTimeout=50000",
         "start": "node app.js",
-        "dev": "nodemon app.js"
+        "dev": "nodemon app.js",
+        "lint": "eslint ."
     },
     "author": "",
     "license": "ISC",
@@ -22,6 +23,11 @@
         "supertest": "^7.1.0"
     },
     "devDependencies": {
+        "@eslint/js": "^9.27.0",
+        "eslint": "^9.27.0",
+        "eslint-plugin-react": "^7.37.5",
+        "globals": "^16.1.0",
+        "mongodb-memory-server": "^10.1.4",
         "nodemon": "^3.1.4"
     }
 }

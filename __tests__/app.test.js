@@ -1,18 +1,30 @@
 const request = require('supertest');
 const app = require('../app');
 const mongoose = require('mongoose');
-require('dotenv').config();  
-const config = require('../config/database'); 
+const { MongoMemoryServer } = require('mongodb-memory-server');
+
+let mongoServer;
 
 describe('App.js Tests', () => {
 
     beforeAll(async () => {
-        await mongoose.connect(config.database, { 
-        });
+        try {
+            mongoServer = await MongoMemoryServer.create();
+            const mongoUri = mongoServer.getUri();
+            await mongoose.connect(mongoUri);
+        } catch (error) {
+            console.error('Database connection error:', error);
+            throw error;
+        }
     });
 
     afterAll(async () => {
-        await mongoose.disconnect();
+        try {
+            await mongoose.connection.close();
+            await mongoServer.stop();
+        } catch (error) {
+            console.error('Error closing database connection:', error);
+        }
     });
 
     it('should return 404 for the root path', async () => {
