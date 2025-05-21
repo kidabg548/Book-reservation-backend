@@ -40,7 +40,6 @@ jobs:
           curl -X GET "${{ secrets.RENDER_DEPLOY_HOOK }}"
 
       - name: Notify deployment success
-        run: |
-          echo "🚀 Deployment Successful! 
+        run: echo "🚀 Deployment Successful!"
 
 
