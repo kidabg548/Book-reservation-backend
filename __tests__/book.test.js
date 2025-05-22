@@ -21,7 +21,7 @@ beforeAll(async () => {
     const adminUser = new User({
       name: "Admin User",
       email: "admin@example.com",
-      phoneNumber: "1234567890",
+      phoneNumber: "0901946736",
       password: "Admin@1234",
       isAdmin: true,
       isApproved: true,

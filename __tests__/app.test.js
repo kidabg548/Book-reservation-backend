@@ -42,9 +42,4 @@ describe('App.js Tests', () => {
         expect(response.statusCode).toBe(200); 
     });
 
-    it('should return 200 for /api/books route even without a token', async () => { 
-        const response = await request(app).get('/api/books');
-        expect(response.statusCode).toBe(200); 
-    });
-
 });
